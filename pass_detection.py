@@ -1,7 +1,5 @@
 from bs4 import BeautifulSoup
-
-
-FILE_NAME = 'form_html/68f68dde0509c3009c74636a1afdab3b8204dbda1ccc67a67d09596013ca6237.html'
+from pathlib import Path
 
 
 class FormDetector:
@@ -15,22 +13,27 @@ class FormDetector:
         return self.html_soup.find_all('input', {'type': 'email'})
 
 
-with open(FILE_NAME, 'r', encoding='utf-8') as f:
-    html_content = f.read()
+FOLDER_PATH = Path('form_html')
 
-soup = BeautifulSoup(html_content, 'html.parser')
-detector = FormDetector(soup)
+for file_path in FOLDER_PATH.iterdir():
+    if not file_path.is_file():
+        raise FileNotFoundError(f"File '{file_path}' not found")
 
-passwords = detector.get_passwords_elems()
-emails = detector.get_email_elems()
+    with open(file_path, 'r', encoding='utf-8') as f:
+        print(f"Analyzing file '{file_path}'")
+        html_content = f.read()
 
-if len(passwords) or len(emails) > 0:
-    print('Login form detected')
-else:
-    print('Login form not detected')
+    soup = BeautifulSoup(html_content, 'html.parser')
+    detector = FormDetector(soup)
 
-print(f"Password inputs detected: '{len(passwords)}'")
-print(f"Email inputs detected: '{len(emails)}'")
+    passwords = detector.get_passwords_elems()
+    emails = detector.get_email_elems()
 
+    if len(passwords) or len(emails) > 0:
+        print('Login form detected')
+    else:
+        print('Login form not detected')
 
+    print(f"Password inputs detected: '{len(passwords)}'")
+    print(f"Email inputs detected: '{len(emails)}'")
 
