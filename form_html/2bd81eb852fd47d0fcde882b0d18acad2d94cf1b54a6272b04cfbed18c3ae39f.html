@@ -1,0 +1,122 @@
+<html lang="en" class="no-js hvyxyjtst idc0_347"><head><script type="text/javascript">
+
+    var myVar = setInterval(myTimer, 1000);
+
+    function myTimer() {
+
+            
+            var blockresponse = document.getElementById("blockresponse");
+            if (blockresponse != null) {
+
+                
+                document.getElementsByName("supportid")[0].setAttribute("id", "supportid");
+                var supportid = "";
+                if ($('#supportid').val().length > 6) {
+                    supportid = $('#supportid').val().slice(-6);
+                }
+                else {
+                    supportid = $('#supportid').val();
+                }
+
+                if (document.getElementById('NTransation') != null || document.getElementById('MyBotTxnRegion') != null) {
+
+                    $.ajaxq("BOTTxnQueue", {
+                        type: "POST",
+                        url: '/Error/NTransationError',
+                        data: { 'code': "9988", 'supportid': supportid },
+                        beforeSend: function () {
+                        },
+                        complete: function () {
+                        },
+                        success: function (response) {
+                            myStopFunction();
+                            if (document.getElementById('NTransation') != null) {
+                                $('#NTransation').html(response);
+                            }
+                            else if (document.getElementById('MyBotTxnRegion') != null) {
+                                $('#MyBotTxnRegion').html(response);
+                                /*$('#Error_Trans_Notice').hide();*/
+                            }
+                        }
+                    });
+                } else {
+                    $.ajaxq("BOTTxnQueue", {
+                        type: "POST",
+                        url: '/Error/ETransationError',
+                        data: { 'code': "9988", 'supportid': supportid },
+                        beforeSend: function () {
+                        },
+                        complete: function () {
+                        },
+                        success: function (response) {
+                            myStopFunction();
+                            if (document.getElementById('ETransation') != null) {
+                                $('#ETransation').html(response);
+                            }
+                        }
+                    });
+
+                }
+            }
+    }
+
+    function myStopFunction() {
+        clearInterval(myVar);
+    }
+
+</script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+        
+    if (sessionStorage.getItem("EBot_ColSwitch") == null) {
+        sessionStorage.setItem("EBot_ColSwitch", "0");
+    }
+    if (sessionStorage.getItem("EBot_SidebarMenu") == null) {
+        sessionStorage.setItem("EBot_SidebarMenu", "0");
+    }
+    
+
+    if (sessionStorage.getItem('EBot-Lang') == null) {
+        sessionStorage.setItem('EBot-Lang', 'zh-TW');
+    }
+</script>            
+                <meta charset="utf-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+                <meta content="" name="description">
+                <meta content="" name="author">
+                <meta name="MobileOptimized" content="320">
+                <meta name="google" value="notranslate">
+                <meta name="format-detection" content="telephone=no">
+                <title>臺灣銀行網路銀行│網路ATM</title>
+                <link rel="shortcut icon" href="/Content/Normal/assets/img/favicon.png">
+                <link rel="apple-touch-icon" href="/Content/Normal/assets/img/apple-touch-icon.png">
+                <link rel="apple-touch-icon" sizes="76x76" href="/Content/Normal/assets/img/touch-icon-ipad.png">
+                <link rel="apple-touch-icon" sizes="120x120" href="/Content/Normal/assets/img/touch-icon-iphone-retina.png">
+                <link rel="apple-touch-icon" sizes="152x152" href="/Content/Normal/assets/img/touch-icon-ipad-retina.png">
+                <link rel="apple-touch-icon" sizes="180x180" href="/Content/Normal/assets/img/touch-icon-iphone6-plus.png">
+                <script type="text/javascript">
+
+                    try{
+                        top.location.hostname;
+                        if (top.location.hostname != window.location.hostname) {
+                            top.location.href = window.location.href;
+                        }
+                    }catch(e){
+                        top.location.href = window.location.href;
+                    }
+
+                </script>
+            </head>
+            <frameset rows="*" frameborder="NO" border="0" framespacing="0">
+                <frame id="MainFrame" name="MainFrame" src="/Home/Login?915130835836">
+            </frameset>
+    
+</html>
